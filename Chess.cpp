@@ -27,41 +27,29 @@ int main()
         printf("%d ",8-row);
         for (int col = 0; col < 8; col++) {
             if ((row + col) % 2 == 0) {// Чередуем цвета: если сумма индексов четная — белая клетка, иначе — черная
-                printf("\033[40m");
+                printf("\033[41m");
             } else {
-                printf("\033[47m");
+                printf("\033[44m");
             }
-            if (row==1)// street for black
-                printf("\033[30m ♟  ");
-            else if (row==0 && col == 0 || row==0 && col==7)
-                printf("\033[30m ♜  ");
-            else if (row==0 && col==1 || row==0 && col==6)
-                printf("\033[30m ♞  ");
-            else if (row==0 && col==2 || row==0 && col==5)
-                printf("\033[30m ♝  ");
-            else if (row==0 && col==3)
-                printf("\033[30m ♛  ");
-            else if (row==0 && col==4)
-                printf("\033[30m ♚  ");
-
-            else if (row==6)// street for white
-                printf("\033[37m ♟  ");
-            else if (row==7 && col == 0 || row==7 && col==7)
-                printf("\033[37m ♜  ");
-            else if (row==7 && col==1 || row==7 && col==6)
-                printf("\033[37m ♞  ");
-            else if (row==7 && col==2 || row==7 && col==5)
-                printf("\033[37m ♝  ");
-            else if (row==7 && col==3)
-                printf("\033[37m ♛  ");
-            else if (row==7 && col==4)
-                printf("\033[37m ♚  ");
-            
-            else
-            printf("    ");// Выводим 4 пробела, чтобы клетка получилась квадратной 
+                // Выводим фигуру в зависимости от числа в pole[row][col]
+            int abs_piece = pole[row][col];
+         
+            switch (abs_piece) {
+                case 1: printf(" ♟  "); break; // Пешка
+                case 2: printf(" ♞  "); break; // Конь
+                case 3: printf(" ♝  "); break; // Слон
+                case 4: printf(" ♜  "); break; // Ладья
+                case 5: printf(" ♛  "); break; // Ферзь
+                case 6: printf(" ♚  "); break; // Король
+                case -1: printf(" ♙  "); break; // Пешка
+                case -2: printf(" ♘  "); break; // Конь
+                case -3: printf(" ♗  "); break; // Слон
+                case -4: printf(" ♖  "); break; // Ладья
+                case -5: printf(" ♕  "); break; // Ферзь
+                case -6: printf(" ♔  "); break; // Король
+                default: printf("    "); break; // Пустая клетка (0)
+            }
         }
-        
-        
         printf("\033[0m" "\n");// Сбрасываем цвет и переходим на новую строку
     }
 
@@ -75,3 +63,4 @@ int main()
     return 0;
 }   
 //♚♛♜♝♞♟ - фигуры    
+//♔♕♖♗♘♙

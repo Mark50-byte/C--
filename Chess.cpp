@@ -14,10 +14,10 @@ int main()
         {-4,-3,-2,-5,-6,-2,-3,-4},
         {-1,-1,-1,-1,-1,-1,-1,-1},
         { 0, 0, 0, 0, 0, 0, 0, 0},
+        { 0, -5, 0, 0, 0, 0, 0, 0},
+        { 0, 0, 0, 5, 0, 0, 0, 0},
         { 0, 0, 0, 0, 0, 0, 0, 0},
-        { 0, 0, 0, 0, 0, 0, 0, 0},
-        { 0, 0, 0, 0, 0, 0, 0, 0},
-        { 0, 1, 1, 1, 1, 1, 1, 1},
+        { 1, 1, 1, 1, 1, 1, 1, 1},
         { 4, 3, 2, 5, 6, 2, 3, 4}// Король (K) - 6; Ферзь (Q) - 5; Ладья (R) - 4; Слон (B) - 3; Конь (N) - 2; Пешка (P) - 1. Отрицательные числа - чёрные
     };
    do{ 
@@ -126,14 +126,51 @@ int main()
                 int difference_y = end_vert-start_vert;//разница по вертикали
                 int flag = 1;
                 if ((difference_x==0 && difference_y!=0) || (difference_x!=0 && difference_y==0)){//определяем, что ладья движется только в одну сторону
-                int step_x = (difference_x > 0) - (difference_x < 0); // Определяем направление движения, то есть если ось х, то будет 0
+                int step_x = (difference_x > 0) - (difference_x < 0); // Определяем направление движения, то есть если ось х, то будет 1 или -1, взависимости от направления, вверх или вниз
                 int step_y = (difference_y > 0) - (difference_y < 0); // Определяем направление движения, то есть если ось у, то будет 1 или -1, взависимости от направления, вверх или вниз
                 int cur_x = start_gor + step_x;// проверяем на ход влево-вправо, есть ли там фигура
                 int cur_y = start_vert + step_y;// проверяем на ход вперёд-назад, есть ли там фигура
                 while (cur_x!=end_gor || cur_y!=end_vert){
-                    if(pole[cur_y][cur_x]!=0){
+                    if(pole[cur_y][cur_x]!=0){// если стоит не 0, то есть фигура
                         flag = 0;
                         printf("нельзя перепрыгнуть фигуру, ладья так не умеет\n");
+                        break;
+                    }
+                    cur_x+=step_x;// идём по х, то есть просчитываем шаги
+                    cur_y+=step_y;// идём по у, то есть просчитываем шаги
+                }
+                if (flag==1){// проверка нет ли там нашей фигуры
+                    int end_kletka = pole[end_vert][end_gor];
+                    if (end_kletka==0 || (end_kletka >0 && piece==-4)||(end_kletka <0 && piece==4)){
+                        flag = 1;
+                    }else{
+                        printf("friendly fier\n");
+                        flag = 0;
+                        continue;
+                    }
+                }
+                }else{
+                    printf("ладья так не умеет\n");
+                    continue;
+                }
+                if (flag==1){// перемещаем в кон координату
+                    pole[end_vert][end_gor]=piece;
+                    pole[start_vert][start_gor]=0;
+                    kol_step+=1;
+                }
+            }else if(piece==3 || piece==-3){//слон, аналогичный код ладье, на удивление
+                int difference_x = end_gor-start_gor;//разница по горизантали
+                int difference_y = end_vert-start_vert;//разница по вертикали
+                int flag = 1;
+                if (abs(difference_x)==abs(difference_y)){
+                int step_x = (difference_x > 0) - (difference_x < 0); // Определяем направление движения, то есть если ось х, то будет 1 или -1, взависимости от направления, вверх или вниз
+                int step_y = (difference_y > 0) - (difference_y < 0); // Определяем направление движения, то есть если ось у, то будет 1 или -1, взависимости от направления, вверх или вниз
+                int cur_x = start_gor + step_x;// проверяем на ход влево-вправо, есть ли там фигура
+                int cur_y = start_vert + step_y;// проверяем на ход вперёд-назад, есть ли там фигура
+                while (cur_x!=end_gor || cur_y!=end_vert ){
+                    if(pole[cur_y][cur_x]!=0){
+                        flag = 0;
+                        printf("нельзя перепрыгнуть фигуру, слон так не умеет\n");
                         break;
                     }
                     cur_x+=step_x;
@@ -141,19 +178,80 @@ int main()
                 }
                 if (flag==1){
                     int end_kletka = pole[end_vert][end_gor];
-                    if (end_kletka==0 || (end_kletka >0 && piece==-4)||(end_kletka <0 && piece==4)){
+                    if (end_kletka==0 || (end_kletka >0 && piece==-3)||(end_kletka <0 && piece==3)){
                         flag = 1;
                     }else{
                         printf("friendly fier\n");
                         flag = 0;
+                        continue;
                     }
                 }
+                }else{
+                    printf("слон так не умеет\n");
+                    continue;
                 }
                 if (flag==1){
                     pole[end_vert][end_gor]=piece;
                     pole[start_vert][start_gor]=0;
                     kol_step+=1;
                 }
+            }else if(piece==5 || piece==-5){
+                int difference_x = end_gor-start_gor;//разница по горизантали
+                int difference_y = end_vert-start_vert;//разница по вертикали
+                int flag = 1;
+                if (abs(difference_x)==abs(difference_y)|| (difference_x==0 && difference_y!=0) || (difference_x!=0 && difference_y==0)){
+                int step_x = (difference_x > 0) - (difference_x < 0); // Определяем направление движения, то есть если ось х, то будет 1 или -1, взависимости от направления, вверх или вниз
+                int step_y = (difference_y > 0) - (difference_y < 0); // Определяем направление движения, то есть если ось у, то будет 1 или -1, взависимости от направления, вверх или вниз
+                int cur_x = start_gor + step_x;// проверяем на ход влево-вправо, есть ли там фигура
+                int cur_y = start_vert + step_y;// проверяем на ход вперёд-назад, есть ли там фигура
+                while (cur_x!=end_gor || cur_y!=end_vert ){
+                    if(pole[cur_y][cur_x]!=0){
+                        flag = 0;
+                        printf("нельзя перепрыгнуть фигуру, ферзь так не умеет\n");
+                        break;
+                    }
+                    cur_x+=step_x;
+                    cur_y+=step_y;
+                }
+                if (flag==1){
+                    int end_kletka = pole[end_vert][end_gor];
+                    if (end_kletka==0 || (end_kletka >0 && piece==-5)||(end_kletka <0 && piece==5)){
+                        flag = 1;
+                    }else{
+                        printf("friendly fier\n");
+                        flag = 0;
+                        continue;
+                    }
+                }
+                }else{
+                    printf("ферзь так не умеет\n");
+                    continue;
+                }
+                if (flag == 1) {
+                pole[end_vert][end_gor] = piece;
+                pole[start_vert][start_gor] = 0;
+                kol_step += 1;
+                }
+            }else if(piece==6 || piece==-6){
+                int difference_x = end_gor-start_gor;//разница по горизантали
+                int difference_y = end_vert-start_vert;//разница по вертикали
+                if (abs(difference_x)<=1 && abs(difference_y)<=1 && !(difference_x ==0 && difference_y==0)) {
+                    int end_kletka = pole[end_vert][end_gor];
+                    if (end_kletka==0 || (end_kletka>0 && piece==-6) || (end_kletka<0 && piece==6)){
+                        pole[end_vert][end_gor] = piece;
+                        pole[start_vert][start_gor] = 0;
+                        kol_step += 1;
+                    }else{
+                        printf("friendly fier\n");
+                        continue;
+                    }
+                }
+                else{
+                    printf("король так не умеет\n");
+                    continue;
+                }
+            ///}else if(){
+
             }else if (piece==0){
                 printf("пустая клетка\n");
             }

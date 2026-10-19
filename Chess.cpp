@@ -270,7 +270,39 @@ int main()
         }else {
             printf("Неверные координаты доски!\n");
         }
-   }while(kol_step<20);//число шагов, ходов
+   }while(kol_step<3);//число шагов, ходов
+   for (int row = 0; row < 8; row++) {
+        printf("%d ",8-row);
+        for (int col = 0; col < 8; col++) {
+            if ((row + col) % 2 == 0) {// Чередуем цвета: если сумма индексов четная — белая клетка, иначе — черная
+                printf("\033[41m");
+            } else {
+                printf("\033[44m");
+            }   
+            int pieces = pole[row][col];// Выводим фигуру в зависимости от числа в pole[row][col] (от координат)
+            switch (pieces) {//проверка на фигуру
+                case 1: printf(" ♟  "); break; //1 case 1: printf(" 1  "); break;
+                case 2: printf(" ♞  "); break; //2 case 1: printf(" 2  "); break;
+                case 3: printf(" ♝  "); break; //3 case 1: printf(" 3  "); break;
+                case 4: printf(" ♜  "); break; //4 case 1: printf(" 4  "); break;
+                case 5: printf(" ♛  "); break; //5 case 1: printf(" 5  "); break;
+                case 6: printf(" ♚  "); break; //6 case 1: printf(" 6  "); break;
+                case -1: printf(" ♙  "); break; //-1 case 1: printf(" -1  "); break;
+                case -2: printf(" ♘  "); break; //-2 case 1: printf(" -2  "); break;
+                case -3: printf(" ♗  "); break; //-3 case 1: printf(" -3  "); break;
+                case -4: printf(" ♖  "); break; //-4 case 1: printf(" -4  "); break;
+                case -5: printf(" ♕  "); break; //-5 case 1: printf(" -5  "); break;
+                case -6: printf(" ♔  "); break; //-6 case 1: printf(" -6  "); break;
+                default: printf("    "); break; 
+            }
+        
+    }
+        printf("\033[0m" "\n");// Сбрасываем цвет и переходим на новую строку
+    }
+
+    for (int col2 = 0; col2<8;col2++){// расставляем буквы
+        printf("   %c",col2+97);
+    }
     return 0;
 } 
 

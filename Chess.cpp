@@ -14,8 +14,8 @@ int main()
         {-4,-3,-2,-5,-6,-2,-3,-4},
         {-1,-1,-1,-1,-1,-1,-1,-1},
         { 0, 0, 0, 0, 0, 0, 0, 0},
-        { 0, -5, 0, 0, 0, 0, 0, 0},
-        { 0, 0, 0, 5, 0, 0, 0, 0},
+        { 0, 0, 0, 0, 0, 0, 0, 0},
+        { 0, 0, 0, 0, 0, 0, 0, 0},
         { 0, 0, 0, 0, 0, 0, 0, 0},
         { 1, 1, 1, 1, 1, 1, 1, 1},
         { 4, 3, 2, 5, 6, 2, 3, 4}// Король (K) - 6; Ферзь (Q) - 5; Ладья (R) - 4; Слон (B) - 3; Конь (N) - 2; Пешка (P) - 1. Отрицательные числа - чёрные
@@ -195,7 +195,7 @@ int main()
                     pole[start_vert][start_gor]=0;
                     kol_step+=1;
                 }
-            }else if(piece==5 || piece==-5){
+            }else if(piece==5 || piece==-5){// ферзь
                 int difference_x = end_gor-start_gor;//разница по горизантали
                 int difference_y = end_vert-start_vert;//разница по вертикали
                 int flag = 1;
@@ -232,7 +232,7 @@ int main()
                 pole[start_vert][start_gor] = 0;
                 kol_step += 1;
                 }
-            }else if(piece==6 || piece==-6){
+            }else if(piece==6 || piece==-6){//король
                 int difference_x = end_gor-start_gor;//разница по горизантали
                 int difference_y = end_vert-start_vert;//разница по вертикали
                 if (abs(difference_x)<=1 && abs(difference_y)<=1 && !(difference_x ==0 && difference_y==0)) {
@@ -250,8 +250,19 @@ int main()
                     printf("король так не умеет\n");
                     continue;
                 }
-            ///}else if(){
-
+            }else if(piece==2 || piece==-2){// Horse
+                int difference_x = end_gor-start_gor;//разница по горизантали
+                int difference_y = end_vert-start_vert;//разница по вертикали
+                if (difference_x==2 && difference_y==1 || difference_x==1 && difference_y==2){
+                    int end_kletka = pole[end_vert][end_gor];
+                    if (end_kletka==0 || (end_kletka>0 && piece==-2) || (end_kletka<0 && piece==2)){
+                        pole[end_vert][end_gor] = piece;
+                        pole[start_vert][start_gor] = 0;
+                        kol_step++;
+                    }else{
+                        printf("нельзя так ходить");
+                    }
+                }
             }else if (piece==0){
                 printf("пустая клетка\n");
             }
@@ -259,7 +270,7 @@ int main()
         }else {
             printf("Неверные координаты доски!\n");
         }
-   }while(kol_step<6);//число шагов, ходов
+   }while(kol_step<20);//число шагов, ходов
     return 0;
 } 
 

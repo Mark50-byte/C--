@@ -115,6 +115,24 @@ int main()
                 if (flag==1){//вывод фигуры, если всё ок
                     pole[end_vert][end_gor]=piece;
                     pole[start_vert][start_gor]=0;
+                    int number;
+                    if (piece == 1 && end_vert == 0) {
+                        printf("впешите фигуру, которую хотите: 2 - конь, 3 - слон, 4 - ладья, 5 - ферзь\n");
+                        scanf_s(" %d",&number);
+                        while (number <= 1 || number >= 6) {
+                        printf("no-no-no! Введите число от 2 до 5: ");
+                        scanf_s(" %d", &number);
+                        }
+                        pole[end_vert][end_gor] = number;
+                    }else if (piece == -1 && end_vert == 7) {
+                        printf("впешите фигуру, которую хотите: -2 - конь, -3 - слон, -4 - ладья, -5 - ферзь\n");
+                        scanf_s(" %d",&number);
+                        while (number >= -1 || number <= -6) {
+                        printf("no-no-no! Введите число от -2 до -5: ");
+                        scanf_s(" %d", &number);
+                        }
+                        pole[end_vert][end_gor] = number; 
+                    }
                     kol_step += 1; // счётчик хода (шагов)
                 }else{
                     printf("неверный ход\n");
@@ -253,15 +271,19 @@ int main()
             }else if(piece==2 || piece==-2){// Horse
                 int difference_x = end_gor-start_gor;//разница по горизантали
                 int difference_y = end_vert-start_vert;//разница по вертикали
-                if (difference_x==2 && difference_y==1 || difference_x==1 && difference_y==2){
+                if ((abs(difference_x)==2 && abs(difference_y)==1) || (abs(difference_x)==1 && abs(difference_y)==2)){
                     int end_kletka = pole[end_vert][end_gor];
                     if (end_kletka==0 || (end_kletka>0 && piece==-2) || (end_kletka<0 && piece==2)){
                         pole[end_vert][end_gor] = piece;
                         pole[start_vert][start_gor] = 0;
                         kol_step++;
                     }else{
-                        printf("нельзя так ходить");
+                        printf("friendly fier\n");
+                        continue;
                     }
+                }else{
+                    printf("конь так не умеет\n");
+                    continue;
                 }
             }else if (piece==0){
                 printf("пустая клетка\n");
@@ -270,7 +292,7 @@ int main()
         }else {
             printf("Неверные координаты доски!\n");
         }
-   }while(kol_step<3);//число шагов, ходов
+   }while(kol_step<21);//число шагов, ходов
    for (int row = 0; row < 8; row++) {
         printf("%d ",8-row);
         for (int col = 0; col < 8; col++) {
